@@ -86,6 +86,23 @@ todoRoutes.route('/update/:id').post(function(req, res) {
     });
 });
 
+//handler for deleting todo
+
+todoRoutes.route('/delete/:id').post(function(req, res) {
+    Todo.findById(req.params.id, function(err, todo) {
+        if (!todo)
+            res.status(404).send('data is not found');
+        else
+            todo.remove().then(todo => {
+                res.json('Todo Removed');
+            })
+            .catch(err => {
+                res.status(400).send("Removal not possible")
+            });
+    });
+});
+
+
 app.use('/todos', todoRoutes);
 
 app.listen(PORT, function() {

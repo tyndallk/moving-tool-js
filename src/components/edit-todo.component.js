@@ -16,7 +16,7 @@ export default class EditTodo extends Component {
 
     componentDidMount() {
         //request current todo from backend
-        axios.get('http://localhost:4000/todos/'+this.props.match.params.id)
+        axios.get('http://localhost:4000/todos/edit/'+this.props.match.params.id)
              .then(response => {
                  this.setState({
                      todo_description: response.data.todo_description,
@@ -52,16 +52,13 @@ export default class EditTodo extends Component {
                      </div> 
                      <div className="form-group">
                         <div className="form-check form-check-inline">
-                            <input className="form-check-input"
-                                   type="radio"
-                                   name="priorityOptions"
-                                   id="priorityLow"
-                                   value="Low"
-                                   checked={this.state.todo_priority==='Low'}
-                                   onChange={this.onChangeTodoPriority}
-                                   />
-                            <label className="form-check-label">Low</label>       
-                        </div>
+                        <label>Due by: </label>
+                        <input  type="date"
+                                className="form-control"
+                                value={this.state.todo_priority}
+                                onChange={this.onChangeTodoPriority}
+                                />
+                    </div>
                     </div>  
                     <div className="form-check">
                         <input type="checkbox"

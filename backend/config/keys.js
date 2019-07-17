@@ -1,4 +1,4 @@
 module.exports = {
-    mongoURI: "mongodb://<dbuser>:<dbpassword>@ds159993.mlab.com:59993/mern-auth", 
+    mongoURI: "mongodb+srv://move:7fgItIVAkPjTHp19@cluster0-gt7td.mongodb.net/test?retryWrites=true&w=majority", 
     secretOrKey: "secret"
   };

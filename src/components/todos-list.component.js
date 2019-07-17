@@ -10,6 +10,9 @@ const Todo = props => (
         <td>
             <Link to={"/edit/"+props.todo._id}>Edit</Link>
         </td>
+        <td>
+            <Link to={"/delete/"+props.todo._id}>delete</Link>
+        </td>
     </tr>
 )
 
@@ -56,7 +59,8 @@ export default class TodosList extends Component {
                             <th>Description</th>
                             <th>Vendor</th>
                             <th>Due</th>
-                            <th>Actions</th>
+                            <th>Update</th>
+                            <th>Remove</th>
                         </tr>
                     </thead>
                     <tbody>
