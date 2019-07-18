@@ -2,18 +2,24 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Link} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import { Provider } from "react-redux";
+import store from "./store";
+
 
 import CreateTodo from "./components/create-todo.component";
 import EditTodo from "./components/edit-todo.component";
 import TodosList from "./components/todos-list.component";
 import DeleteTodo from "./components/delete-todo.component";
-
+import Landing from "./components/landing.component";
+import Register from "./components/register.component";
+import Login from "./components/login.component";
 
 
 import logo from "./logo.png"
 
 function App() {
   return (
+    <Provider store={store}>
     <Router>
     <div className="container">
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -29,16 +35,21 @@ function App() {
             <li className="navbar-item">
               <Link to="/create" className="nav-link">Create Checklist</Link>
             </li>
+            
           </ul>
         </div>
       </nav>
  
-      <Route path="/" exact component={TodosList} />
+      <Route path="/" exact component={Landing} />
+      <Route path="/todo" exact component={TodosList} />
       <Route path="/edit/:id" component={EditTodo} />
       <Route path="/delete/:id" component={DeleteTodo}/>
       <Route path="/create" component={CreateTodo} />
+      <Route path="/register" component={Register} />
+      <Route path="/login" component={Login} />
     </div>
     </Router>
+    </Provider>
   );
 }
 

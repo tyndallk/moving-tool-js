@@ -54,7 +54,7 @@ export default class DeleteTodo extends Component {
     }
     render () {
         const redirect = this.state.redirect
-        if (redirect== true) {
+        if (redirect=== true) {
             this.setState({
                 redirect: false
             })
