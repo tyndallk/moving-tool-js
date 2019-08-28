@@ -5,6 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const todoRoutes = express.Router();
 const PORT = 4000;
+
 //const passport = require("passport");
 const users = require("./routes/api/users");
 var passport = require("passport");
@@ -21,6 +22,10 @@ app.use(
   );
   app.use(bodyParser.json());
 
+// added this 7/23
+const db = require("./config/keys").mongoURI;
+
+//connect to MondoDB
 mongoose.connect('mongodb://127.0.0.1:27017/todos', { useNewUrlParser: true });
 const connection = mongoose.connection;
 
@@ -36,6 +41,9 @@ require("./config/passport")(passport);
 
 // Routes
 app.use("/api/users", users);
+
+//added 7/23
+const port = process.env.PORT || 4000;
 
 
 

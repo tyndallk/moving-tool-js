@@ -1,7 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link} from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import jwt_decode from "jwt-decode";
+import setAuthToken from "./utils/setAuthToken";
+
+import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { Provider } from "react-redux";
 import store from "./store";
 
@@ -13,9 +17,31 @@ import DeleteTodo from "./components/delete-todo.component";
 import Landing from "./components/landing.component";
 import Register from "./components/register.component";
 import Login from "./components/login.component";
-
-
+import PrivateRoute from "./components/private-route/PrivateRoute";
+import Dashboard from "./components/dashboard.component";
 import logo from "./logo.png"
+
+// Check for token to keep user logged in
+if (localStorage.jwtToken) {
+  // Set auth token header auth
+  const token = localStorage.jwtToken;
+  setAuthToken(token);
+  // Decode token and get user info and exp
+  const decoded = jwt_decode(token);
+  // Set user and isAuthenticated
+  store.dispatch(setCurrentUser(decoded));
+// Check for expired token
+  const currentTime = Date.now() / 1000; // to get in milliseconds
+  if (decoded.exp < currentTime) {
+    // Logout user
+    store.dispatch(logoutUser());
+
+    
+    // Redirect to login
+    window.location.href = "./login";
+  }
+}
+
 
 function App() {
   return (
@@ -30,7 +56,7 @@ function App() {
         <div className="navbar-collaspe">
           <ul className="navbar-nav mr-auto">
             <li className="navbar-item">
-              <Link to="/" className="nav-link">Moving Checklist</Link>
+              <Link to="/todo" className="nav-link">Moving Checklist</Link>
             </li>
             <li className="navbar-item">
               <Link to="/create" className="nav-link">Create Checklist</Link>
@@ -47,10 +73,14 @@ function App() {
       <Route path="/create" component={CreateTodo} />
       <Route path="/register" component={Register} />
       <Route path="/login" component={Login} />
+       <Switch>
+              <PrivateRoute exact path="/dashboard" component={Dashboard} />
+       </Switch>
     </div>
     </Router>
     </Provider>
   );
 }
+
 
 export default App;
